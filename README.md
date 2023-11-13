@@ -2,8 +2,7 @@
 
 Basic Flutter apps from the Cluster TIC Flutter course
 
-
-1. Cookie clicker
+## Cookie clicker
 
 First app from the course: cookie clicker
     
