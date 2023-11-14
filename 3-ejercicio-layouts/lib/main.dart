@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Color.fromARGB(255, 248, 150, 216)),
+              seedColor: const Color.fromARGB(255, 248, 150, 216)),
           useMaterial3: true,
           fontFamily: GoogleFonts.montserrat().fontFamily),
       home: HomePage(),
