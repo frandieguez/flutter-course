@@ -3,6 +3,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../widgets/data_card.dart';
+
 class HomePage extends StatefulWidget {
   @override
   final Key? key;
@@ -65,29 +67,18 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildColumnWithShadow(
-                      children: [
-                        const Icon(Icons.timer, size: 50),
-                        const Text("Time"),
-                        Text(_userTime, style: const TextStyle(fontSize: 20)),
-                      ],
-                    ),
-                    _buildColumnWithShadow(
-                      children: [
-                        const Icon(Icons.location_on, size: 51),
-                        const Text("km"),
-                        Text(_userDistanceWalked.toString(),
-                            style: const TextStyle(fontSize: 20)),
-                      ],
-                    ),
-                    _buildColumnWithShadow(
-                      children: [
-                        const Icon(Icons.speed, size: 50),
-                        const Text("Activities"),
-                        Text(_userActivitiesCount.toString(),
-                            style: const TextStyle(fontSize: 20)),
-                      ],
-                    ),
+                    DataCard(
+                        icon: Icons.timer,
+                        text: "Time",
+                        value: _userTime.toString()),
+                    DataCard(
+                        icon: Icons.location_on,
+                        text: "km",
+                        value: _userDistanceWalked.toString()),
+                    DataCard(
+                        icon: Icons.location_on,
+                        text: "Activities",
+                        value: _userActivitiesCount.toString()),
                   ],
                 ),
               ),
