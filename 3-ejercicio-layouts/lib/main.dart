@@ -6,6 +6,9 @@ void main() {
   runApp(const MyApp());
 }
 
+const secondaryColor = Color.fromARGB(255, 200, 125, 249);
+const primaryColor = Color.fromARGB(255, 248, 150, 216);
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -13,12 +16,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Fitness app',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 248, 150, 216)),
-          useMaterial3: true,
-          fontFamily: GoogleFonts.montserrat().fontFamily),
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
+        fontFamily: GoogleFonts.montserrat().fontFamily,
+        textTheme: TextTheme(
+          displayLarge: const TextStyle(
+            fontSize: 72,
+            fontWeight: FontWeight.bold,
+          ),
+          titleLarge: const TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w400,
+            fontStyle: FontStyle.normal,
+          ),
+          bodyMedium: GoogleFonts.montserrat(),
+          displaySmall: const TextStyle(),
+        ),
+        useMaterial3: true,
+      ),
       home: HomePage(),
     );
   }

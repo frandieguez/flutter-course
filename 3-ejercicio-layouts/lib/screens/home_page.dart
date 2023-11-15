@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-const secondaryColor = Color.fromARGB(255, 200, 125, 249);
-const primaryColor = Color.fromARGB(255, 248, 150, 216);
+import '../main.dart';
 
 class HomePage extends StatefulWidget {
   final Key? key;
@@ -13,8 +13,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double slider1Value = 0.0;
-  double slider2Value = 0.0;
+  final String _userAvatarUrl =
+      "https://randomuser.me/api/portraits/women/44.jpg";
+  final _userName = "Xaina Carballo";
+  double _userHeight = 150.0;
+  double _userWeight = 55.0;
+  final String _userTime = "2h 45'";
+  final double _userDistanceWalked = 212.4;
+  final double _userActivitiesCount = 42;
+  final _userRegisteredAt = DateFormat.yMMMd().format(DateTime.now()
+      .subtract(const Duration(days: 600, hours: 3, minutes: 43, seconds: 56)));
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +39,21 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 100,
-                backgroundImage: NetworkImage(
-                  "https://media.revistavanityfair.es/photos/60e84a97a5768ac18af685dd/master/w_1280,c_limit/39710.jpg",
-                ),
+                backgroundImage: NetworkImage(_userAvatarUrl),
               ),
-              const Text(
-                'Xurxo Carballo',
-                style: TextStyle(
+              Text(
+                _userName,
+                // style: const Theme.of(context).textTheme.bodyMedium!.copyWith(
+                //       color: Theme.of(context).colorScheme.onPrimary,
+                //     ),
+                style: const TextStyle(
                     color: Colors.black54, letterSpacing: .5, fontSize: 50),
               ),
-              const Text(
-                'registered 20 April 2023',
-                style: TextStyle(
+              Text(
+                "registered at ${_userRegisteredAt}",
+                style: const TextStyle(
                     color: Colors.black38, letterSpacing: .5, fontSize: 15),
               ),
               Container(
@@ -54,23 +63,25 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     _buildColumnWithShadow(
                       children: [
-                        Icon(Icons.timer, size: 50),
-                        Text("Tempo"),
-                        Text("2h 45'", style: TextStyle(fontSize: 20)),
+                        const Icon(Icons.timer, size: 50),
+                        const Text("Time"),
+                        Text(_userTime, style: const TextStyle(fontSize: 20)),
                       ],
                     ),
                     _buildColumnWithShadow(
                       children: [
-                        Icon(Icons.location_on, size: 51),
-                        Text("km"),
-                        Text("212,4", style: TextStyle(fontSize: 20)),
+                        const Icon(Icons.location_on, size: 51),
+                        const Text("km"),
+                        Text(_userDistanceWalked.toString(),
+                            style: const TextStyle(fontSize: 20)),
                       ],
                     ),
                     _buildColumnWithShadow(
                       children: [
-                        Icon(Icons.speed, size: 50),
-                        Text("Actividades"),
-                        Text("42", style: TextStyle(fontSize: 20)),
+                        const Icon(Icons.speed, size: 50),
+                        const Text("Activities"),
+                        Text(_userActivitiesCount.toString(),
+                            style: const TextStyle(fontSize: 20)),
                       ],
                     ),
                   ],
@@ -83,19 +94,23 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     _buildSliderRow(
                       name: 'Height',
-                      value: slider1Value,
+                      value: _userHeight,
+                      minValue: 80,
+                      maxValue: 250,
                       onChanged: (value) {
                         setState(() {
-                          slider1Value = value;
+                          _userHeight = value;
                         });
                       },
                     ),
                     _buildSliderRow(
                       name: 'Weight',
-                      value: slider2Value,
+                      value: _userWeight,
+                      minValue: 40,
+                      maxValue: 150,
                       onChanged: (value) {
                         setState(() {
-                          slider2Value = value;
+                          _userWeight = value;
                         });
                       },
                     ),
@@ -112,6 +127,8 @@ class _HomePageState extends State<HomePage> {
   Widget _buildSliderRow(
       {required String name,
       required double value,
+      required double minValue,
+      required double maxValue,
       required ValueChanged<double> onChanged}) {
     return Row(
       children: [
@@ -122,8 +139,8 @@ class _HomePageState extends State<HomePage> {
         Expanded(
           child: Slider(
             value: value,
-            min: 0.0,
-            max: 100.0,
+            min: minValue,
+            max: maxValue,
             onChanged: onChanged,
           ),
         ),
@@ -138,7 +155,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildColumnWithShadow({required List<Widget> children}) {
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         color: secondaryColor,
         borderRadius: BorderRadius.circular(10.0),
