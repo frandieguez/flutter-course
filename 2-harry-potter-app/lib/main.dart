@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:harrypotter/screens/home_page.dart';
+import 'package:harrypotter/screens/character_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,8 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
-          fontFamily: GoogleFonts.lato().fontFamily),
-      home: HomePage(),
+          fontFamily: GoogleFonts.lato().fontFamily,
+          appBarTheme: AppBarTheme(
+              backgroundColor: Colors.purple.shade400,
+              foregroundColor: Colors.white)),
+      home: CharacterList(),
     );
   }
 }
