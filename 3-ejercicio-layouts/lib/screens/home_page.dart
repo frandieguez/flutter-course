@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../main.dart';
 
 class HomePage extends StatefulWidget {
+  @override
   final Key? key;
 
-  HomePage({this.key}) : super(key: key);
+  const HomePage({this.key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   final double _userActivitiesCount = 42;
   final _userRegisteredAt = DateFormat.yMMMd().format(DateTime.now()
       .subtract(const Duration(days: 600, hours: 3, minutes: 43, seconds: 56)));
+  final _userProfileCompleted = 70.0;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title:
             const Center(child: Text('Profile', textAlign: TextAlign.center)),
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
@@ -45,19 +48,18 @@ class _HomePageState extends State<HomePage> {
               ),
               Text(
                 _userName,
-                // style: const Theme.of(context).textTheme.bodyMedium!.copyWith(
-                //       color: Theme.of(context).colorScheme.onPrimary,
-                //     ),
-                style: const TextStyle(
-                    color: Colors.black54, letterSpacing: .5, fontSize: 50),
+                style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
               ),
               Text(
-                "registered at ${_userRegisteredAt}",
-                style: const TextStyle(
-                    color: Colors.black38, letterSpacing: .5, fontSize: 15),
+                "registered at $_userRegisteredAt",
+                style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
               ),
               Container(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -117,6 +119,26 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircularPercentIndicator(
+                  radius: MediaQuery.of(context).size.width / 5,
+                  animation: true,
+                  animationDuration: 1200,
+                  lineWidth: 15.0,
+                  percent: _userProfileCompleted / 100,
+                  center: Text(
+                    "${_userProfileCompleted.toString()} %",
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  backgroundColor: Theme.of(context).colorScheme.onTertiary,
+                  progressColor: Theme.of(context).colorScheme.primary,
+                ),
+              )
             ],
           ),
         ),
@@ -133,7 +155,7 @@ class _HomePageState extends State<HomePage> {
     return Row(
       children: [
         Text(
-          '${name}',
+          name,
           style: const TextStyle(fontSize: 16.0),
         ),
         Expanded(
@@ -157,7 +179,7 @@ class _HomePageState extends State<HomePage> {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: primaryColor,
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: const [
           BoxShadow(
