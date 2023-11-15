@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
-import '../main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,10 +41,13 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              CircleAvatar(
-                radius: 100,
-                backgroundImage: NetworkImage(_userAvatarUrl),
-              ),
+              Animate(
+                  effects: [],
+                  onPlay: (controller) => controller.repeat(),
+                  child: CircleAvatar(
+                    radius: 100,
+                    backgroundImage: NetworkImage(_userAvatarUrl),
+                  )),
               Text(
                 _userName,
                 style: Theme.of(context).textTheme.displayLarge!.copyWith(
@@ -130,9 +132,7 @@ class _HomePageState extends State<HomePage> {
                   center: Text(
                     "${_userProfileCompleted.toString()} %",
                     style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   circularStrokeCap: CircularStrokeCap.round,
                   backgroundColor: Theme.of(context).colorScheme.onTertiary,
@@ -176,22 +176,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildColumnWithShadow({required List<Widget> children}) {
-    return Container(
+    return Card(
+        child: Container(
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        color: primaryColor,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(10.0),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0.0, 1.0), //(x,y)
-            blurRadius: 6.0,
-          ),
-        ],
       ),
       child: Column(
         children: children,
       ),
-    );
+    ));
   }
 }
