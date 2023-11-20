@@ -16,12 +16,12 @@ class ActivityListItem extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: Colors.pink.shade50,
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(
-            color: Colors.transparent), // You can customize the border color
-      ),
+      // decoration: BoxDecoration(
+      //   color: Colors.pink.shade50,
+      //   borderRadius: BorderRadius.circular(12.0),
+      //   border: Border.all(
+      //       color: Colors.transparent), // You can customize the border color
+      // ),
       child: ListTile(
         leading: Hero(
           tag: activity.type,

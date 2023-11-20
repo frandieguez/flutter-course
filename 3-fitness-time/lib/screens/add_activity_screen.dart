@@ -16,7 +16,6 @@ Map<ActivityType, Widget> activityTypeWidgets = {
 
 class _AddActivityScreenState extends State<AddActivityScreen> {
   late ActivityType _type = ActivityType.running;
-  late DateTime _date;
   late double _distance;
 
   @override

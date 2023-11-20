@@ -1,10 +1,12 @@
 import 'package:fitness_time/screens/activity_details_screen.dart';
 import 'package:fitness_time/screens/activity_list_screen.dart';
 import 'package:fitness_time/screens/add_activity_screen.dart';
+import 'package:fitness_time/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'models/activity.dart';
+import 'models/user.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +33,17 @@ class MyApp extends StatelessWidget {
         '/add': (context) => AddActivityScreen(),
       },
       onGenerateRoute: (settings) {
-        if (settings.name == '/details') {
+        if (settings.name == '/profile/me') {
+          // Extract the profile argument
+          final args = settings.arguments as Map<String, dynamic>;
+          final user = args['profile'] as User;
+
+          return MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+              profile: user,
+            ),
+          );
+        } else if (settings.name == '/details') {
           // If the route is for the details screen, extract the activity argument
           final args = settings.arguments as Map<String, dynamic>;
           final activity = args['activity'] as Activity;

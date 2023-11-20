@@ -1,6 +1,7 @@
 import 'package:fitness_time/models/activity.dart';
 import 'package:flutter/material.dart';
 
+import '../models/user.dart';
 import '../widgets/activity_list_item.dart';
 
 class ActivityListScreen extends StatefulWidget {
@@ -27,12 +28,102 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
     )
   ];
 
+  User user = User(
+      name: "Xaina Carballo",
+      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      height: 150.0,
+      weight: 55.0,
+      time: "2h 45'",
+      distanceWalked: 212.4,
+      activitiesCount: 42,
+      registeredAt: DateTime.now().subtract(
+          const Duration(days: 600, hours: 3, minutes: 43, seconds: 56)),
+      profileCompleted: 70.0);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Activity List'),
         centerTitle: true,
+        actions: <Widget>[
+          Hero(
+              tag: 'user_avatar',
+              child: IconButton(
+                    icon: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: NetworkImage(user.avatar),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/profile/me',
+                        arguments: {
+                          'profile': user,
+                        },
+                      );
+                    },
+                  )
+              ),
+        ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: NetworkImage(user.avatar),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/profile/me',
+                        arguments: {
+                          'profile': user,
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    user.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () {
+                // Navigate to settings page
+                Navigator.pop(context); // Close the drawer
+                // Add your navigation logic here
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Logout'),
+              onTap: () {
+                // Implement logout logic
+                Navigator.pop(context); // Close the drawer
+                // Add your logout logic here
+              },
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
