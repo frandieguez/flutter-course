@@ -23,10 +23,10 @@ class _MyHomePageState extends State<HomeScreen> {
   void initState() {
     super.initState();
     prediction = null;
-    fetchDeviceLocation();
+    fetchLocationAndData();
   }
 
-  Future<void> fetchDeviceLocation() async {
+  Future<Prediction> fetchLocationAndData() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -38,21 +38,19 @@ class _MyHomePageState extends State<HomeScreen> {
       location = Location(lat: 42.9, lon: -8.533333);
       // debugPrint(error.toString());
     } finally {
-      fetchData(location!);
+      return fetchData(location!);
     }
   }
 
-  Future<void> fetchData(Location location) async {
+  Future<Prediction> fetchData(Location location) async {
     try {
       final url = Uri.parse(
           "https://www.7timer.info/bin/civil.php?lon=${location.lon}&lat=${location.lat}&ac=0&unit=metric&output=json");
       var response = await http.get(url);
 
-      setState(() {
-        prediction = predictionFromJson(response.body);
-      });
+      return predictionFromJson(response.body);
     } catch (error) {
-      debugPrintStack();
+      throw Exception('Error while fetching data');
     }
   }
 
@@ -64,21 +62,56 @@ class _MyHomePageState extends State<HomeScreen> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: prediction != null
-          ? SingleChildScrollView(
+      body: FutureBuilder<Prediction>(
+          future: fetchLocationAndData(),
+          builder: (BuildContext context, snapshot) {
+            List<Widget> children;
+            if (snapshot.hasData) {
+              children = [
+                 Column(
+                      children: [
+                        for (var dataserie in snapshot.data!.dataseries)
+                          DataserieRow(dataserie: dataserie),
+                      ],
+                    ),
+              ];
+            } else if (snapshot.hasError) {
+              children = <Widget>[
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text('Error: ${snapshot.error}'),
+                ),
+              ];
+            } else {
+              children = const <Widget>[
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CircularProgressIndicator(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Text('Awaiting result...'),
+                ),
+              ];
+            }
+            return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    for (var dataserie in prediction!.dataseries)
-                      DataserieRow(dataserie: dataserie),
-                  ],
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: children,
+                  ),
                 ),
               ),
-            )
-          : Center(
-              child: CircularProgressIndicator(),
-            ),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           setState(() {
