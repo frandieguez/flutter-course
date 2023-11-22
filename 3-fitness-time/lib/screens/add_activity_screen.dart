@@ -79,6 +79,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
               onPressed: () {
                 // Perform activity addition logic here
                 Activity newActivity = Activity(
+                  id: DateTime.now().millisecondsSinceEpoch,
                   type: _type,
                   date: DateTime.now(),
                   distance: _distance,

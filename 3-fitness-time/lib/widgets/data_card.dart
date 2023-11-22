@@ -24,12 +24,12 @@ class DataCard extends StatelessWidget {
       child: Column(
         children: [
           Icon(
-            this.icon,
+            icon,
             size: 50,
             color: Colors.white,
           ),
-          Text(this.text, style: TextStyle(color: Colors.white)),
-          Text(this.value,
+          Text(text, style: const TextStyle(color: Colors.white)),
+          Text(value,
               style: const TextStyle(fontSize: 20, color: Colors.white)),
         ],
       ),

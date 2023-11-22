@@ -1,17 +1,17 @@
+import 'package:fitness_time/data/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
 
-import '../models/user.dart';
 import '../widgets/data_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
   final Key? key;
-  final User profile;
 
-  const ProfileScreen({this.key, required this.profile}) : super(key: key);
+  const ProfileScreen({this.key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileState();
@@ -20,112 +20,114 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:
-            const Center(child: Text('Profile', textAlign: TextAlign.center)),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Animate(
-                  effects: [],
-                  onPlay: (controller) => controller.repeat(),
-                  child: Hero(
-                    tag: 'user_avatar',
-                    child: CircleAvatar(
-                      radius: 100,
-                      backgroundImage: NetworkImage(widget.profile.avatar),
-                    ),
-                  )),
-              Text(
-                widget.profile.name,
-                style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                      color: Colors.black45,
-                    ),
-              ),
-              Text(
-                "registered at ${DateFormat.yMMMd().format(widget.profile.registeredAt)}",
-                style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      color: Colors.black38,
-                    ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    DataCard(
-                        icon: Icons.timer,
-                        text: "Time",
-                        value: widget.profile.time.toString()),
-                    DataCard(
-                        icon: Icons.location_on,
-                        text: "km",
-                        value: widget.profile.distanceWalked.toString()),
-                    DataCard(
-                        icon: Icons.location_on,
-                        text: "Activities",
-                        value: widget.profile.activitiesCount.toString()),
-                  ],
+    return Consumer<Profile>(builder: (context, data, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title:
+              const Center(child: Text('Profile', textAlign: TextAlign.center)),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Animate(
+                    effects: [],
+                    onPlay: (controller) => controller.repeat(),
+                    child: Hero(
+                      tag: 'user_avatar',
+                      child: CircleAvatar(
+                        radius: 100,
+                        backgroundImage: NetworkImage(data.user.avatar),
+                      ),
+                    )),
+                Text(
+                  data.user.name,
+                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                        color: Colors.black45,
+                      ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildSliderRow(
-                      name: 'Height',
-                      value: widget.profile.height,
-                      minValue: 80,
-                      maxValue: 250,
-                      onChanged: (value) {
-                        setState(() {
-                          widget.profile.setHeight(value);
-                        });
-                      },
-                    ),
-                    _buildSliderRow(
-                      name: 'Weight',
-                      value: widget.profile.weight,
-                      minValue: 40,
-                      maxValue: 150,
-                      onChanged: (value) {
-                        setState(() {
-                          widget.profile.setWeight(value);
-                        });
-                      },
-                    ),
-                  ],
+                Text(
+                  "registered at ${DateFormat.yMMMd().format(data.user.registeredAt)}",
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                        color: Colors.black38,
+                      ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircularPercentIndicator(
-                  radius: MediaQuery.of(context).size.width / 5,
-                  animation: true,
-                  animationDuration: 1200,
-                  lineWidth: 15.0,
-                  percent: widget.profile.profileCompleted / 100,
-                  center: Text(
-                    "${widget.profile.profileCompleted.toString()} %",
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 20),
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      DataCard(
+                          icon: Icons.timer,
+                          text: "Time",
+                          value: data.user.time.toString()),
+                      DataCard(
+                          icon: Icons.location_on,
+                          text: "km",
+                          value: data.user.distanceWalked.toString()),
+                      DataCard(
+                          icon: Icons.location_on,
+                          text: "Activities",
+                          value: data.user.activitiesCount.toString()),
+                    ],
                   ),
-                  circularStrokeCap: CircularStrokeCap.round,
-                  backgroundColor: Theme.of(context).colorScheme.onTertiary,
-                  progressColor: Theme.of(context).colorScheme.primary,
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildSliderRow(
+                        name: 'Height',
+                        value: data.user.height,
+                        minValue: 80,
+                        maxValue: 250,
+                        onChanged: (value) {
+                          setState(() {
+                            data.user.setHeight(value);
+                          });
+                        },
+                      ),
+                      _buildSliderRow(
+                        name: 'Weight',
+                        value: data.user.weight,
+                        minValue: 40,
+                        maxValue: 150,
+                        onChanged: (value) {
+                          setState(() {
+                            data.user.setWeight(value);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularPercentIndicator(
+                    radius: MediaQuery.of(context).size.width / 5,
+                    animation: true,
+                    animationDuration: 1200,
+                    lineWidth: 15.0,
+                    percent: data.user.profileCompleted / 100,
+                    center: Text(
+                      "${data.user.profileCompleted.toString()} %",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.round,
+                    backgroundColor: Theme.of(context).colorScheme.onTertiary,
+                    progressColor: Theme.of(context).colorScheme.primary,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildSliderRow(
