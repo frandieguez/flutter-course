@@ -1,9 +1,30 @@
 import 'package:flutter/widgets.dart';
 
 import '../models/character.dart';
+import '../services/database.dart';
 
 class HowardsData extends ChangeNotifier {
-  List<Character> characters = [
+  List<Character> characters = [];
+
+  HowardsData() {
+    init();
+  }
+
+  init() async {
+    characters = await Database.instance.getAllCharacters();
+
+    // Populate database
+    if (characters.isEmpty) {
+      for (var character in charactersInitial) {
+        await Database.instance.updateOrInsertCharacter(character);
+      }
+
+      characters.addAll(charactersInitial);
+    }
+    notifyListeners();
+  }
+
+  List<Character> charactersInitial = [
     Character(
         id: 1,
         name: 'Harry Potter',
@@ -37,7 +58,10 @@ class HowardsData extends ChangeNotifier {
   ];
 
   void addReview(int id, double rating) {
-    characters.firstWhere((el) => el.id == id).addReview(rating);
+    var char = characters.firstWhere((el) => el.id == id);
+
+    char.addReview(rating);
+    Database.instance.updateOrInsertCharacter(char);
 
     notifyListeners();
   }
@@ -45,7 +69,9 @@ class HowardsData extends ChangeNotifier {
   Character getCharFromId(int id) => characters.firstWhere((el) => el.id == id);
 
   void toggleFavorite(int id) {
-    getCharFromId(id).toggleFavorite();
+    var char = getCharFromId(id);
+    char.toggleFavorite();
+    Database.instance.updateOrInsertCharacter(char);
 
     notifyListeners();
   }

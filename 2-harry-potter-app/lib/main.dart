@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harrypotter/data/howards_data.dart';
+import 'package:harrypotter/data/preferences.dart';
 import 'package:harrypotter/screens/character_list.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +15,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (create) => HowardsData()),
+        ChangeNotifierProvider(create: (create) => Preferences()),
+      ],
       // Instancia de la clase que gestiona los datos
-      create: (BuildContext context) => HowardsData(),
       // Objetos que van a obtener los datos
       child: MaterialApp(
         title: 'Howards app',
@@ -27,7 +31,7 @@ class MyApp extends StatelessWidget {
             appBarTheme: AppBarTheme(
                 backgroundColor: Colors.purple.shade400,
                 foregroundColor: Colors.white)),
-        home: CharacterList(),
+        home: const CharacterList(),
       ),
     );
   }

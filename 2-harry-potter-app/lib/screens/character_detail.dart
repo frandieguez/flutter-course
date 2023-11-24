@@ -9,7 +9,7 @@ const primarycolor = Colors.deepPurple;
 class CharacterDetail extends StatefulWidget {
   final int id;
 
-  CharacterDetail({super.key, required this.id}) {}
+  const CharacterDetail({super.key, required this.id});
 
   @override
   State<CharacterDetail> createState() => _CharacterDetailState();
@@ -38,7 +38,7 @@ class _CharacterDetailState extends State<CharacterDetail> {
                     child: Image.network(character.imageUrl,
                         width: imageWidth / 2)),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -53,21 +53,25 @@ class _CharacterDetailState extends State<CharacterDetail> {
                   style: const TextStyle(
                       color: primarycolor, letterSpacing: .5, fontSize: 50),
                 ),
-                Row(
-                  children: [
-                    Rating(
-                        value: lastValueClicked,
-                        color: Colors.blue,
-                        onRating: (value) {
-                          lastValueClicked = value;
-                          data.addReview(widget.id, value);
-                        }),
-                    InkWell(
-                        child: Icon(character.favorite
-                            ? Icons.heart_broken
-                            : Icons.heart_broken_outlined),
-                        onTap: () => data.toggleFavorite(widget.id))
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Rating(
+                          value: lastValueClicked,
+                          color: Colors.blue,
+                          onRating: (value) {
+                            lastValueClicked = value;
+                            data.addReview(widget.id, value);
+                          }),
+                      InkWell(
+                          child: Icon(character.favorite
+                              ? Icons.favorite
+                              : Icons.favorite_border),
+                          onTap: () => data.toggleFavorite(widget.id))
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

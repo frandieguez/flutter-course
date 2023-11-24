@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harrypotter/data/howards_data.dart';
+import 'package:harrypotter/data/preferences.dart';
 import 'package:harrypotter/screens/character_detail.dart';
 import 'package:provider/provider.dart';
 
@@ -8,14 +9,19 @@ class CharacterList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Character list'),
-          centerTitle: true,
-        ),
-        body: Consumer<HowardsData>(builder: (context, data, child) {
-          return ListView(children: [
-            for (var char in data.characters)
+    return Consumer2<HowardsData, Preferences>(
+        builder: (context, charactersProvider, preferencesProvider, child) {
+      return Scaffold(
+          appBar: AppBar(
+              title: const Text('Character list'),
+              centerTitle: true,
+              leading: Switch(
+                  value: preferencesProvider.showSubtitles,
+                  onChanged: (value) {
+                    preferencesProvider.setShowSubtitles(value);
+                  })),
+          body: ListView(children: [
+            for (var char in charactersProvider.characters)
               Padding(
                 padding: const EdgeInsets.all(2),
                 child: ListTile(
@@ -27,11 +33,13 @@ class CharacterList extends StatelessWidget {
                         child: Image.network(char.imageUrl,
                             height: 100, width: 100)),
                   ),
-                  subtitle: Text(
-                      "${char.stars.toStringAsFixed(1)} - ${char.reviews} reviews"),
-                  trailing: Icon(char.favorite
-                      ? Icons.heart_broken
-                      : Icons.heart_broken_outlined),
+                  subtitle: preferencesProvider.showSubtitles
+                      ? Text(
+                          "${char.stars.toStringAsFixed(1)} - ${char.reviews} reviews")
+                      : null,
+                  trailing: Icon(
+                      char.favorite ? Icons.favorite : Icons.favorite_border,
+                      color: Colors.red),
                   onTap: () {
                     Navigator.push(
                         context,
@@ -40,7 +48,7 @@ class CharacterList extends StatelessWidget {
                   },
                 ),
               )
-          ]);
-        }));
+          ]));
+    });
   }
 }
