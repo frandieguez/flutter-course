@@ -15,11 +15,18 @@ class CharacterList extends StatelessWidget {
           appBar: AppBar(
               title: const Text('Character list'),
               centerTitle: true,
-              leading: Switch(
-                  value: preferencesProvider.showSubtitles,
-                  onChanged: (value) {
-                    preferencesProvider.setShowSubtitles(value);
-                  })),
+              leading: Image.asset(
+                'assets/images/hogwarts.png',
+                width: 30, // Adjust the width as needed
+                height: 30, // Adjust the height as needed
+              ),
+              actions: [
+                Switch(
+                    value: preferencesProvider.showSubtitles,
+                    onChanged: (value) {
+                      preferencesProvider.setShowSubtitles(value);
+                    })
+              ]),
           body: ListView(children: [
             for (var char in charactersProvider.characters)
               Padding(

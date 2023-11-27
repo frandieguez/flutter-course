@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harrypotter/data/howards_data.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/rating.dart';
@@ -66,9 +67,21 @@ class _CharacterDetailState extends State<CharacterDetail> {
                             data.addReview(widget.id, value);
                           }),
                       InkWell(
-                          child: Icon(character.favorite
-                              ? Icons.favorite
-                              : Icons.favorite_border),
+                          highlightColor: Colors.transparent,
+                          child: character.favorite
+                              ? Lottie.asset(
+                                  'assets/animations/heart.json',
+                                  // Replace with the correct path
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                  repeat: false,
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: const Icon(Icons.favorite_border,
+                                      size: 20),
+                                ),
                           onTap: () => data.toggleFavorite(widget.id))
                     ],
                   ),
