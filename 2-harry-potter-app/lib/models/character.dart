@@ -14,9 +14,9 @@ class Character {
   final int strength;
   final int magic;
   final int speed;
+  bool favorite = false;
 
   double get stars => reviews == 0 ? 0 : totalStars / reviews;
-  bool favorite = false;
 
   Character(
       {required this.id,

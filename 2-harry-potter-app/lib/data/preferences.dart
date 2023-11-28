@@ -16,13 +16,12 @@ class Preferences extends ChangeNotifier {
 
     notifyListeners();
   }
-  
-  setShowSubtitles(bool value) async {
-    _preferences ??= await SharedPreferences.getInstance();
 
+  Future<void> setShowSubtitles(bool value) async {
+    _preferences ??= await SharedPreferences.getInstance();
+    _preferences!.setBool('show_subtitles', value);
     showSubtitles = value;
 
-    _preferences!.setBool('show_subtitles', value);
     notifyListeners();
   }
 }
