@@ -1,0 +1,5 @@
+{
+  "welcomeToHogwarts": "Bienvenido a Hogwarts",
+  "characterAppBar": "Info de {characterName}",
+  "reviewsCount": "{count, plural, =0{sin reviews} =1{1 revisión} other{{count} revisiones}}"
+}

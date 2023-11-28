@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -24,13 +25,14 @@ class _CharacterDetailState extends State<CharacterDetail> {
   @override
   Widget build(BuildContext context) {
     var imageWidth = MediaQuery.of(context).size.width * .8;
+    final l = AppLocalizations.of(context)!;
 
     return Consumer<HogwardsData>(builder: (context, data, child) {
       Character character = data.getCharFromId(widget.id);
       return Scaffold(
         appBar: widget.showAppBar
             ? AppBar(
-                title: Text("${character.name} Details"),
+                title: Text(l.characterAppBar(character.name)),
               )
             : null,
         body: SafeArea(
@@ -48,7 +50,8 @@ class _CharacterDetailState extends State<CharacterDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Rating(value: character.stars),
-                  Text("${character.reviews} reviews"),
+                  Text(AppLocalizations.of(context)!
+                      .reviewsCount(character.reviews)),
                 ],
               ),
               Text(

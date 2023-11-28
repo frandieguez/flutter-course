@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:harrypotter/screens/character_detail.dart';
 import 'package:harrypotter/screens/character_list.dart';
 
+import '../widgets/hogwarts_app_bar.dart';
+
 class TabletLayout extends StatefulWidget {
   const TabletLayout({super.key});
 

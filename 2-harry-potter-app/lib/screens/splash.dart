@@ -56,15 +56,15 @@ class _SplashState extends State<Splash> {
   }
 
   Future<void> init() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {
       status = "Connecting to backend...";
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {
       status = "Loading resources...";
     });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
 
     if (mounted) {
       Navigator.of(context).pushReplacement(

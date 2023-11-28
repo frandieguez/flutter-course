@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:harrypotter/screens/character_detail.dart';
 import 'package:harrypotter/styles/app_styles.dart';
 import 'package:provider/provider.dart';
 
 import '../data/hogwarts_data.dart';
 import '../data/preferences.dart';
-import '../gen/assets.gen.dart';
+import '../widgets/hogwarts_app_bar.dart';
 
 class CharacterList extends StatelessWidget {
   const CharacterList({super.key, this.showAppBar = true, this.onTapped});
@@ -41,9 +42,7 @@ class CharacterList extends StatelessWidget {
                         title: Text(character.name),
                         subtitle: preferences.showSubtitles
                             ? Text(
-                                "${character.stars.toStringAsFixed(1)} "
-                                "- ${character.reviews} reviews",
-                              )
+                                "${character.stars.toStringAsFixed(1)} ${AppLocalizations.of(context)!.reviewsCount(character.reviews)}")
                             : null,
                         trailing: Icon(
                           (character.favorite)
@@ -66,38 +65,15 @@ class CharacterList extends StatelessWidget {
                       );
                     },
                   ),
-                )
+                ),
+              // CalendarDatePicker(
+              //   initialDate: DateTime.now(),
+              //   firstDate: DateTime(1900),
+              //   lastDate: DateTime(2100),
+              //   onDateChanged: (value) {},
+              // )
             ],
           );
         }));
   }
-}
-
-class HogwartsAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HogwartsAppBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      leading: Assets.images.hogwarts.image(
-        height: 24,
-      ),
-      title: const Text("Welcome to Hogwarts"),
-      actions: [
-        Consumer<Preferences>(builder: (context, preferences, child) {
-          return Switch(
-            value: preferences.showSubtitles,
-            onChanged: (value) {
-              preferences.setShowSubtitles(value);
-            },
-          );
-        }),
-      ],
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
