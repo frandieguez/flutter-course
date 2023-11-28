@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../data/activities.dart';
-import '../widgets/activity_icon.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
   final int id;
@@ -29,36 +28,38 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
           centerTitle: true,
         ),
         body: SingleChildScrollView(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Hero(
-                    tag: activity.type,
-                    child: ActivityIcon(activity: activity, size: 200),
+          child: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Hero(
+                      tag: activity.type,
+                      child: Icon(activity.type.icon, size: 200),
+                    ),
                   ),
-                ),
-                Text(
-                  '${activity.distance.toStringAsFixed(2)} km',
-                  style: TextStyle(
-                    letterSpacing: 1.0,
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple,
+                  Text(
+                    '${activity.distance.toStringAsFixed(2)} km',
+                    style: const TextStyle(
+                      letterSpacing: 1.0,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  formatter.format(activity.date),
-                  style: TextStyle(
-                    letterSpacing: 1.0,
-                    fontSize: 20,
-                    color: Colors.grey,
+                  const SizedBox(height: 10),
+                  Text(
+                    formatter.format(activity.date),
+                    style: const TextStyle(
+                      letterSpacing: 1.0,
+                      fontSize: 20,
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-              ]),
+                ]),
+          ),
         ),
       );
     });

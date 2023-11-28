@@ -10,12 +10,12 @@ class AddActivityScreen extends StatefulWidget {
 
 Map<ActivityType, Widget> activityTypeWidgets = {
   ActivityType.biking: const Text('Biking'),
-  ActivityType.running: const Text('Running'),
-  ActivityType.walking: const Text('Walking'),
+  ActivityType.run: const Text('Running'),
+  ActivityType.walk: const Text('Walking'),
 };
 
 class _AddActivityScreenState extends State<AddActivityScreen> {
-  late ActivityType _type = ActivityType.running;
+  late ActivityType _type = ActivityType.run;
   late double _distance;
 
   @override
@@ -79,7 +79,6 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
               onPressed: () {
                 // Perform activity addition logic here
                 Activity newActivity = Activity(
-                  id: DateTime.now().millisecondsSinceEpoch,
                   type: _type,
                   date: DateTime.now(),
                   distance: _distance,

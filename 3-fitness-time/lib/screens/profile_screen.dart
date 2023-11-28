@@ -31,6 +31,7 @@ class _ProfileState extends State<ProfileScreen> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Animate(
                     effects: [],
@@ -42,11 +43,13 @@ class _ProfileState extends State<ProfileScreen> {
                         backgroundImage: NetworkImage(data.user.avatar),
                       ),
                     )),
-                Text(
-                  data.user.name,
-                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                        color: Colors.black45,
-                      ),
+                Center(
+                  child: Text(
+                    data.user.name,
+                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                          color: Colors.black45,
+                        ),
+                  ),
                 ),
                 Text(
                   "registered at ${DateFormat.yMMMd().format(data.user.registeredAt)}",

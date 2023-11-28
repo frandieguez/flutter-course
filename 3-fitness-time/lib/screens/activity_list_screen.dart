@@ -154,8 +154,7 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
                       },
                       child: Dismissible(
                           onDismissed: (direction) {
-                            activitiesProvider.activities
-                                .remove(activitiesProvider.activities[index]);
+                            activitiesProvider.removeActivity(activitiesProvider.activities[index].id);
                           },
                           key: UniqueKey(),
                           child: ActivityListItem(
@@ -190,7 +189,7 @@ class _ActivityListScreenState extends State<ActivityListScreen> {
 
             if (newActivity != null && newActivity is Activity) {
               setState(() {
-                activitiesProvider.activities.add(newActivity);
+                activitiesProvider.addActivity(newActivity);
               });
             }
           },

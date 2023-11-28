@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => ActivityListScreen(),
           '/add': (context) => AddActivityScreen(),
-          '/profile/me': (context) => ProfileScreen(),
+          '/profile/me': (context) => const ProfileScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == '/details') {
